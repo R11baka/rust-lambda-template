@@ -4,14 +4,12 @@ configValidationMode: "warn"
 
 provider:
   name: aws
-  runtime: provided.al2
+  runtime: provided.al2023
   stage: dev
   region: us-west-1
 
 package:
  individually: true
- exclude:
-   - ./**
 
 custom:
   rust:
@@ -19,11 +17,11 @@ custom:
       docker: false
 
 plugins:
-  - serverless-offline
   - serverless-rust-plugin
+
 functions:
   get:
-    handler: aws-lambda-template
+    handler: rust-lambda
     events:
       - http:
           path: get/{name}

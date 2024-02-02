@@ -15,18 +15,23 @@ async fn main() -> Result<(), Error> {
     // Initialize the AWS SDK for Rust
     let config = aws_config::load_defaults(BehaviorVersion::latest()).await;
 
-    let res = run(service_fn(
+    run(service_fn(
         |request: LambdaEvent<ApiGatewayProxyRequest>| function_handler(request),
     ))
-    .await;
-
-    res
+    .await
 }
 
 async fn function_handler(
     evt: LambdaEvent<ApiGatewayProxyRequest>,
 ) -> Result<ApiGatewayProxyResponse, Error> {
-    let body = "Hello from lambda".to_string();
+    let default_name = String::from("world");
+    let who = evt
+        .payload
+        .path_parameters
+        .get("name")
+        .unwrap_or(&default_name);
+    let body = format!("Hello from {}", who);
+
     Ok(ApiGatewayProxyResponse {
         status_code: 200,
         headers: Default::default(),
