@@ -1,0 +1,30 @@
+service: rust-lambda
+frameworkVersion: "3"
+configValidationMode: "warn"
+
+provider:
+  name: aws
+  runtime: provided.al2
+  stage: dev
+  region: us-west-1
+
+package:
+ individually: true
+ exclude:
+   - ./**
+
+custom:
+  rust:
+    cargoLambda:
+      docker: false
+
+plugins:
+  - serverless-offline
+  - serverless-rust-plugin
+functions:
+  get:
+    handler: aws-lambda-template
+    events:
+      - http:
+          path: get/{name}
+          method: get
