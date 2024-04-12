@@ -1,4 +1,4 @@
-# Template repository with AWS Lambda and rust
+# Boilerplate repository with AWS Lambda and rust
 
 ## Prerequisites
 
